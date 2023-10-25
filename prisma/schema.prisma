@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+  slug String
+  pets Pet[]
+
+  @@map("categories")
+}
+
+model Pet {
+  id                  Int      @id @default(autoincrement())
+  name                String
+  description         String
+  petFood             String
+  petAge              Int
+  lengOfTimeCaptivity String //lama di penangkaran
+  everAdopted         Boolean //pernah di adopsi ?
+  categoryId          Int
+  avaiableAdopted     Boolean  @default(false)
+  category            Category @relation(fields: [categoryId], references: [id])
+
+  @@map("pets")
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  name     String
+  email    String   @unique
+  password String
+  profile  Profile?
+  role     Roles    @default(USER)
+}
+
+model Profile {
+  id        Int    @id @default(autoincrement())
+  address   String
+  job       String
+  telephone Int
+  userId    Int    @unique
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+enum Roles {
+  USER
+  ADMIN
+}
