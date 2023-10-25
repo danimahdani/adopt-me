@@ -4,9 +4,8 @@ import { usePathname } from "next/navigation";
 
 const DashboardPage = () => {
     const pathname = usePathname();
-    console.log(pathname);
 
-    return <div>DashboardPage</div>;
+    return <div>Dashboard Page</div>;
 };
 
 export default DashboardPage;
